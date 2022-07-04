@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "546604332853",
+    "project_id": "dam2-ff542",
+    "storage_bucket": "dam2-ff542.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546604332853:android:667a3ceaa08c7a48f0be7c",
+        "android_client_info": {
+          "package_name": "jardin.infantil"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546604332853-eg0o4r1nbdn39vbaqm0kk2f18cirbeoo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDy9yM0YGgn7kz75qRZIPdzXUO95lhQLy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546604332853-eg0o4r1nbdn39vbaqm0kk2f18cirbeoo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
