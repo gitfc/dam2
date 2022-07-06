@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:jardin/main.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+
+import 'loginpage.dart';
+import 'gestionar_noticias.dart';
+import 'ver_noticias.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -10,6 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  bool logged = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +57,7 @@ class _HomePageState extends State<HomePage> {
               ElevatedButton.icon(
                 onPressed: () {
                   MaterialPageRoute route = MaterialPageRoute(
-                    builder: (context) => seccion,
+                    builder: (context) => LoginPage(),
                   );
                   Navigator.push(context, route);
                 },
@@ -67,7 +72,29 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  MaterialPageRoute route = MaterialPageRoute(
+                    builder: (context) => GestionarNoticias(),
+                  );
+                  Navigator.push(context, route);
+                },
+                label: Text(
+                  'Gestionar noticias',
+                  style: TextStyle(fontSize: 20),
+                ),
+                icon: Icon(MdiIcons.newspaperCheck),
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  backgroundColor: Colors.pink,
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () {
+                  MaterialPageRoute route = MaterialPageRoute(
+                    builder: (context) => VerNoticias(),
+                  );
+                  Navigator.push(context, route);
+                },
                 label: Text(
                   'Ver noticias',
                   style: TextStyle(fontSize: 20),

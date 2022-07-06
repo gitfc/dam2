@@ -38,9 +38,13 @@ dependencies:
   intl: ^0.17.0
   shared_preferences: ^2.0.15
   http: ^0.13.4
-  firebase_storage: ^10.3.1
   firebase_core: ^1.19.1
+  firebase_storage: ^10.3.1
   firebase_auth: ^3.4.1
+  cloud_firestore: ^3.1.17
+  flutter_localizations: 
+    sdk: flutter
+    version: ^0.0.0
 
 dev_dependencies:
   flutter_test:
