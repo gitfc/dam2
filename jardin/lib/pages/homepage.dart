@@ -54,6 +54,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
+              Center(
+                child: Container(
+                  child: Image.asset("lib/img/arcoiris.png"),
+                  height: 250,
+                ),
+              ),
               ElevatedButton.icon(
                 onPressed: () {
                   MaterialPageRoute route = MaterialPageRoute(
