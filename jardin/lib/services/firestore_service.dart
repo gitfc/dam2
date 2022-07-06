@@ -19,27 +19,20 @@ class FirestoreService {
     );
   }
 
-  Future noticiasBorrar(String noticiaId) {
-    return FirebaseFirestore.instance
-        .collection('noticias')
-        .doc(noticiaId)
-        .delete();
+  Future noticiasEliminar(String id) {
+    return FirebaseFirestore.instance.collection('noticias').doc(id).delete();
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getNoticia(
-      String noticiaId) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getNoticia(String id) async {
     return await FirebaseFirestore.instance
         .collection('noticias')
-        .doc(noticiaId)
+        .doc(id)
         .get();
   }
 
   Future noticiasEditar(
-      String noticiaId, String titulo, String contenido, DateTime fecha) {
-    return FirebaseFirestore.instance
-        .collection('noticias')
-        .doc(noticiaId)
-        .update(
+      String id, String titulo, String contenido, DateTime fecha) {
+    return FirebaseFirestore.instance.collection('noticias').doc(id).update(
       {
         'titulo': titulo,
         'contenido': contenido,
