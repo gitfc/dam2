@@ -5,6 +5,7 @@ import 'package:jardin/widgets/bar.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../services/firestore_service.dart';
+import '../services/statusbar.dart';
 import 'editar_noticia.dart';
 import 'agregar_noticia.dart';
 
@@ -19,7 +20,7 @@ class _GestionarNoticiasState extends State<GestionarNoticias> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: barra("Gestionar noticias", context, false),
+      appBar: barra("Gestionar noticias", context),
       body: Column(
         children: [
           Expanded(
@@ -81,6 +82,7 @@ class _GestionarNoticiasState extends State<GestionarNoticias> {
         backgroundColor: Colors.red,
         child: Icon(MdiIcons.newspaperPlus),
       ),
+      bottomNavigationBar: StatusBar(),
     );
   }
 }

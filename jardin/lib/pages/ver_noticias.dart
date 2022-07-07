@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:jardin/services/firestore_service.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
+import 'loginpage.dart';
 import 'ver_noticia.dart';
 
 class VerNoticias extends StatefulWidget {

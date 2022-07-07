@@ -9,7 +9,7 @@ class FirestoreService {
         .snapshots();
   }
 
-  Future noticiasAgregar(String titulo, String contenido, DateTime fecha) {
+  Future noticiasAgregar(String titulo, String contenido, Timestamp fecha) {
     return FirebaseFirestore.instance.collection('noticias').doc().set(
       {
         'titulo': titulo,
@@ -31,7 +31,7 @@ class FirestoreService {
   }
 
   Future noticiasEditar(
-      String id, String titulo, String contenido, DateTime fecha) {
+      String id, String titulo, String contenido, Timestamp fecha) {
     return FirebaseFirestore.instance.collection('noticias').doc(id).update(
       {
         'titulo': titulo,

@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'gestionar_noticias.dart';
+import 'homepage.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController passwordCtrl = TextEditingController();
-  String error = "";
+  String error = '';
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
               flex: 1,
               child: ExpansionTile(
                 title: Text('Ingresar con correo electrónico'),
-                leading: Icon(MdiIcons.cardAccountMail),
+                leading: Icon(MdiIcons.email),
                 children: [
                   Padding(
                     padding: EdgeInsets.all(5),
@@ -86,10 +87,16 @@ class _LoginPageState extends State<LoginPage> {
                           password: passwordCtrl.text.trim(),
                         );
 
-                        MaterialPageRoute route = MaterialPageRoute(
-                            builder: (context) => GestionarNoticias());
+                        SharedPreferences pref =
+                            await SharedPreferences.getInstance();
+                        pref.setString(
+                            'user', emailCtrl.text.trim().toLowerCase());
+
+                        MaterialPageRoute route =
+                            MaterialPageRoute(builder: (context) => HomePage());
 
                         Navigator.pushReplacement(context, route);
+                        setState(() {});
                       } on FirebaseAuthException catch (ex) {
                         error = 'Error: ';
 
@@ -121,57 +128,92 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     alignment: Alignment.center,
-                    child: Text(
-                      error,
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    child: error != ''
+                        ? Text(
+                            error,
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : null,
                   ),
                 ],
               ),
             ),
-            Text(
-              'O iniciar sesión con:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 15,
-              ),
+            Divider(
+              color: Colors.transparent,
+              thickness: 5,
             ),
-            Row(
+            ExpansionTile(
+              leading: Icon(MdiIcons.cardAccountDetails),
+              title: Text('Ingresar con redes sociales'),
               children: [
-                Container(
-                  width: 100,
-                  height: 100,
-                  child: Card(
-                    child: InkWell(
-                      splashColor: Colors.red.withAlpha(30),
-                      onTap: () {},
-                      child: Icon(
-                        MdiIcons.github,
-                        size: 75,
+                Wrap(
+                  spacing: 5,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    Card(
+                      child: InkWell(
+                        splashColor: Colors.pinkAccent,
+                        onTap: () {},
+                        child: Icon(MdiIcons.github, size: 120),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  height: 100,
-                  child: Card(
-                    child: InkWell(
-                      splashColor: Colors.red.withAlpha(30),
-                      onTap: () {},
-                      child: Icon(
-                        MdiIcons.twitter,
-                        size: 75,
+                    Card(
+                      child: InkWell(
+                        splashColor: Colors.pinkAccent,
+                        onTap: () {},
+                        child: Icon(MdiIcons.google, size: 120),
                       ),
                     ),
-                  ),
-                ),
+                    Card(
+                      child: InkWell(
+                        splashColor: Colors.pinkAccent,
+                        onTap: () {},
+                        child: Icon(MdiIcons.facebook, size: 120),
+                      ),
+                    ),
+                    Card(
+                      child: InkWell(
+                        splashColor: Colors.pinkAccent,
+                        onTap: () {},
+                        child: Icon(MdiIcons.apple, size: 120),
+                      ),
+                    ),
+                    Card(
+                      child: InkWell(
+                        splashColor: Colors.pinkAccent,
+                        onTap: () {},
+                        child: Icon(MdiIcons.microsoft, size: 120),
+                      ),
+                    ),
+                    Card(
+                      child: InkWell(
+                        splashColor: Colors.pinkAccent,
+                        onTap: () {},
+                        child: Icon(MdiIcons.twitter, size: 120),
+                      ),
+                    ),
+                    Card(
+                      child: InkWell(
+                        splashColor: Colors.pinkAccent,
+                        onTap: () {},
+                        child: Icon(MdiIcons.yahoo, size: 120),
+                      ),
+                    ),
+                    Card(
+                      child: InkWell(
+                        splashColor: Colors.pinkAccent,
+                        onTap: () {},
+                        child: Icon(MdiIcons.twitch, size: 120),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'loginpage.dart';
 import 'gestionar_noticias.dart';
@@ -60,39 +61,67 @@ class _HomePageState extends State<HomePage> {
                   height: 250,
                 ),
               ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  MaterialPageRoute route = MaterialPageRoute(
-                    builder: (context) => LoginPage(),
-                  );
-                  Navigator.push(context, route);
+              FutureBuilder(
+                future: checkLogin(),
+                initialData: ElevatedButton.icon(
+                  onPressed: () {
+                    MaterialPageRoute route = MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                    );
+                    Navigator.push(context, route);
+                  },
+                  label: Text(
+                    'Iniciar sesión',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  icon: Icon(MdiIcons.locationEnter),
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.pink,
+                  ),
+                ),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  if (snapshot.data == true) {
+                    return ElevatedButton.icon(
+                      onPressed: () {
+                        MaterialPageRoute route = MaterialPageRoute(
+                          builder: (context) => GestionarNoticias(),
+                        );
+                        Navigator.push(context, route);
+                      },
+                      label: Text(
+                        'Gestionar noticias',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      icon: Icon(MdiIcons.newspaperCheck),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: Colors.pink,
+                      ),
+                    );
+                  } else {
+                    return ElevatedButton.icon(
+                      onPressed: () {
+                        MaterialPageRoute route = MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                        );
+                        Navigator.push(context, route);
+                      },
+                      label: Text(
+                        'Iniciar sesión',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      icon: Icon(MdiIcons.locationEnter),
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: Colors.pink,
+                      ),
+                    );
+                  }
                 },
-                label: Text(
-                  'Iniciar sesión',
-                  style: TextStyle(fontSize: 20),
-                ),
-                icon: Icon(MdiIcons.locationEnter),
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Colors.pink,
-                ),
-              ),
-              ElevatedButton.icon(
-                onPressed: () {
-                  MaterialPageRoute route = MaterialPageRoute(
-                    builder: (context) => GestionarNoticias(),
-                  );
-                  Navigator.push(context, route);
-                },
-                label: Text(
-                  'Gestionar noticias',
-                  style: TextStyle(fontSize: 20),
-                ),
-                icon: Icon(MdiIcons.newspaperCheck),
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  backgroundColor: Colors.pink,
-                ),
               ),
               ElevatedButton.icon(
                 onPressed: () {
@@ -116,6 +145,16 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<bool> checkLogin() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var str = null;
+    if (pref.getString('user') != null) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

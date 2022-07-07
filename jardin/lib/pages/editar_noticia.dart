@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../services/firestore_service.dart';
+import '../services/statusbar.dart';
 import '../widgets/bar.dart';
 
 class EditarNoticia extends StatefulWidget {
@@ -23,7 +25,7 @@ class _EditarNoticiaState extends State<EditarNoticia> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: barra("Editar noticia", context, false),
+      appBar: barra("Editar noticia", context),
       body: Form(
         child: Padding(
           padding: EdgeInsets.all(10),
@@ -39,7 +41,7 @@ class _EditarNoticiaState extends State<EditarNoticia> {
               tituloCtrl.text = noticia['titulo'];
               contenidoCtrl.text = noticia['contenido'];
               fecha = noticia['fecha'].toDate();
-              fechaCtrl.text = DateFormat("dd MMMM yyyy",
+              fechaCtrl.text = DateFormat("EEEE, dd MMMM yyyy",
                       Localizations.localeOf(context).toString())
                   .format(DateTime.parse(noticia['fecha'].toDate().toString()));
               horaCtrl.text = DateFormat('HH:mm:ss')
@@ -72,10 +74,17 @@ class _EditarNoticiaState extends State<EditarNoticia> {
                         locale: Locale('es', 'ES'),
                       ).then(
                         (fechaNueva) {
-                          fechaCtrl.text = DateFormat("dd MMMM yyyy",
+                          fecha = DateTime(
+                              fechaNueva!.year,
+                              fechaNueva.month,
+                              fechaNueva.day,
+                              fecha.hour,
+                              fecha.minute,
+                              fecha.second);
+                          ;
+                          fechaCtrl.text = DateFormat("EEEE, dd MMMM yyyy",
                                   Localizations.localeOf(context).toString())
-                              .format(fechaNueva!);
-                          fecha = fechaNueva;
+                              .format(fecha);
                         },
                       );
                     },
@@ -89,7 +98,19 @@ class _EditarNoticiaState extends State<EditarNoticia> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      showTimePicker(
+                        context: context,
+                        initialTime:
+                            TimeOfDay(hour: fecha.hour, minute: fecha.minute),
+                      ).then(
+                        (horaNueva) {
+                          fecha = DateTime(fecha.year, fecha.month, fecha.day,
+                              horaNueva!.hour, horaNueva.minute);
+                          horaCtrl.text = DateFormat("HH:mm:ss").format(fecha);
+                        },
+                      );
+                    },
                     child: TextFormField(
                       enabled: false,
                       controller: horaCtrl,
@@ -100,7 +121,15 @@ class _EditarNoticiaState extends State<EditarNoticia> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      String titulo = tituloCtrl.text.trim();
+                      String contenido = contenidoCtrl.text.trim();
+                      Timestamp ts =
+                          Timestamp(fecha.millisecondsSinceEpoch ~/ 1000, 0);
+                      FirestoreService()
+                          .noticiasEditar(widget.id, titulo, contenido, ts);
+                      Navigator.pop(context);
+                    },
                     child: Text(
                       'Guardar cambios',
                       style: TextStyle(
@@ -112,7 +141,7 @@ class _EditarNoticiaState extends State<EditarNoticia> {
                         (Set<MaterialState> states) {
                           if (states.contains(MaterialState.pressed))
                             return Color.fromARGB(255, 14, 62, 102);
-                          return Colors.blue; // Use the component's default.
+                          return Colors.blue;
                         },
                       ),
                     ),
@@ -196,6 +225,7 @@ class _EditarNoticiaState extends State<EditarNoticia> {
           ),
         ),
       ),
+      bottomNavigationBar: StatusBar(),
     );
   }
 }
