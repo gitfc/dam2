@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:url_launcher/url_launcher.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'homepage.dart';
 
@@ -159,7 +161,9 @@ class _LoginPageState extends State<LoginPage> {
                     Card(
                       child: InkWell(
                         splashColor: Colors.pinkAccent,
-                        onTap: () {},
+                        onTap: () {
+                          entrarGithub();
+                        },
                         child: Icon(MdiIcons.github, size: 120),
                       ),
                     ),
@@ -220,5 +224,22 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void entrarGithub() async {
+    String CLIENT_ID = "5d75e771641d71a98b76";
+    String CLIENT_SECRET = "b33dd542ae832613b6c350f816d30fbaac3f4780";
+
+    String url = "https://github.com/login/oauth/authorize?client_id=" +
+        CLIENT_ID +
+        "&scope=user:email";
+
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      SnackBar(
+        content: Text('Error abriendo GitHub.'),
+      );
+    }
   }
 }
