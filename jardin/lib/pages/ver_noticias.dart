@@ -44,13 +44,12 @@ class _VerNoticiasState extends State<VerNoticias> {
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
                     var noticia = snapshot.data!.docs[index];
-                    String fecha = DateFormat('dd-MM-yy\nHH:mm').format(
-                        DateTime.parse(noticia['fecha'].toDate().toString()));
+                    String fecha = DateFormat('dd-MM-yy\nHH:mm')
+                        .format(noticia['fecha'].toDate());
                     String fechaLarga = DateFormat(
                             'EEEE, dd MMMM yyyy, HH:mm:ss',
                             Localizations.localeOf(context).toString())
-                        .format(DateTime.parse(
-                            noticia['fecha'].toDate().toString()));
+                        .format(noticia['fecha'].toDate());
                     return Card(
                       margin: EdgeInsets.all(5),
                       elevation: 3,

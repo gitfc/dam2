@@ -235,7 +235,11 @@ class _LoginPageState extends State<LoginPage> {
         "&scope=user:email";
 
     if (await canLaunchUrlString(url)) {
-      await launchUrlString(url);
+      await launchUrlString(
+        url,
+        webViewConfiguration: WebViewConfiguration(enableJavaScript: true),
+        mode: LaunchMode.inAppWebView,
+      );
     } else {
       SnackBar(
         content: Text('Error abriendo GitHub.'),

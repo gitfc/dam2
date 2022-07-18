@@ -16,6 +16,7 @@ class AgregarNoticia extends StatefulWidget {
 }
 
 class _AgregarNoticiaState extends State<AgregarNoticia> {
+  final formKey = GlobalKey<FormState>();
   TextEditingController tituloCtrl = TextEditingController();
   TextEditingController contenidoCtrl = TextEditingController();
 
@@ -24,6 +25,7 @@ class _AgregarNoticiaState extends State<AgregarNoticia> {
     return Scaffold(
       appBar: barra("Agregar noticia", context),
       body: Form(
+        key: formKey,
         child: Padding(
           padding: EdgeInsets.all(10),
           child: ListView(
@@ -34,6 +36,12 @@ class _AgregarNoticiaState extends State<AgregarNoticia> {
                   labelText: "Título",
                   prefixIcon: Icon(MdiIcons.nearMe),
                 ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa un título';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: contenidoCtrl,
@@ -43,14 +51,23 @@ class _AgregarNoticiaState extends State<AgregarNoticia> {
                 ),
                 minLines: 8,
                 maxLines: 10,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor ingresa una descripción';
+                  }
+                  return null;
+                },
               ),
               ElevatedButton(
                 onPressed: () async {
-                  String titulo = tituloCtrl.text.trim();
-                  String contenido = contenidoCtrl.text.trim();
-                  Timestamp ts = Timestamp(
-                      DateTime.now().millisecondsSinceEpoch ~/ 1000, 0);
-                  FirestoreService().noticiasAgregar(titulo, contenido, ts);
+                  if (formKey.currentState!.validate()) {
+                    String titulo = tituloCtrl.text.trim();
+                    String contenido = contenidoCtrl.text.trim();
+                    Timestamp ts = Timestamp(
+                        DateTime.now().millisecondsSinceEpoch ~/ 1000, 0);
+                    FirestoreService().noticiasAgregar(titulo, contenido, ts);
+                    Navigator.pop(context);
+                  }
                 },
                 child: Text(
                   'Agregar noticia',
